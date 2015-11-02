@@ -8,11 +8,11 @@ angular.module(ApplicationConfiguration.applicationModuleName).config([
         '$locationProvider', '$mdThemingProvider', '$mdIconProvider',
     function($locationProvider, $mdThemingProvider, $mdIconProvider) {
         $locationProvider.hashPrefix('!');
- 
+
         $mdThemingProvider.theme('default')
-            .primaryPalette('light-green')
+            .primaryPalette('green',{'default':'500'})
             .accentPalette('red');
- 
+
         // Register the user `avatar` icons
         $mdIconProvider
             .defaultIconSet('./modules/core/img/svg/avatars.svg', 128)

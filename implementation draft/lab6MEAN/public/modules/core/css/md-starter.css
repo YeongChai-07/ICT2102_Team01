@@ -5,21 +5,29 @@ html, body {
   margin: 0px;
   padding: 0px;
 }
-
 /* Toolbar area */
 
+head{
+  border: 1px solid white;
+}
 .menu {
   background-color: transparent;
-  border: none;
+  border: solid white;
   height: 38px;
   margin: 16px;
   width: 36px;
 }
-
+md-toolbar{
+  border: 2px solid white;
+}
 md-toolbar h1 {
   margin: auto;
 }
 
+md-tabs .md-tab{
+  border:1px solid white;
+  background-color:#72d572;
+}
 /* Sidenav area */
 
 md-list .md-button {
@@ -44,8 +52,6 @@ md-list .md-button {
 }
 
 #content  {
-  padding-left: 40px;
-  padding-right: 40px;
   padding-top: 5px;
 }
 
@@ -120,9 +126,10 @@ md-toolbar h1 {
 /* Color configuration for the tab label*/
 text-color-set {font-size: 15px;}
 .tab {
-  color:lightgreen;
+  color:white;
 }
 .heading{
+  font-family: Verdana;
   font-size:25px;
   color:white;
 }
@@ -136,3 +143,38 @@ span.name {
   font-size:1.1em;
   padding-left:5px;
 }
+
+tabbing { padding-left: 4em; }
+
+.md-button.md-raised{
+  background-color:#72d172;
+  color:white;
+}
+.md-button:hover{
+  background-color:lightgreen;
+  background:lightgreen;
+  color:black;
+}
+.md-button.md-raised:hover{
+  background-color:lightgreen;
+  background:lightgreen;
+  color:lavender;
+}
+.md-button.md-raised:active{
+  background-color:royalblue;
+  background:lightgreen;
+  color:white;
+}
+.md-button.md-raised:active:hover{
+  background-color:#008C00;
+  color:black;
+  font-size:120%;
+}
+
+/*.md-tabs-centered-wrapper{*/
+  /*display:flex;*/
+  /*justify-content:center;*/
+  /*margin:auto;*/
+  /*height:4.8rem;*/
+  /*md-tabs[md-stretch-tabs]{ max-width:50% !important;}*/
+/*}*/

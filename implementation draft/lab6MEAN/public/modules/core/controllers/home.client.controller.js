@@ -194,24 +194,35 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
         } // end of the showLocation function
         /* Route and display function found at Google Map API */
+        $scope.toggleCollapsed = {collapsed:1,buttonCollapsed:1};
+
         $scope.routeToLocation = function(location,endingpoint) {
+            directionsDisplay.setDirections({routes: []});
             var request = {
                 origin: location,
                 destination: endingpoint,
                 travelMode: google.maps.TravelMode.TRANSIT
             };
-            console.log(request);
+            //console.log(request);
             directionsService.route(request, function(response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(response);
                     directionsDisplay.setMap($scope.map);
                     directionsDisplay.setPanel(document.getElementById('routeInstruction'));
+                    console.log($scope.toggleCollapsed.buttonCollapsed);
+                    $scope.toggleCollapsed.buttonCollapsed = 0;
+                    document.getElementById('routeDistance').innerHTML = ((response.routes[0].legs[0].distance.value)/1000).toFixed(0) + " km";
+                    document.getElementById('routeDuration').innerHTML = ((response.routes[0].legs[0].duration.value)/60).toFixed(0) + " minutes";
                     console.log(directionsDisplay);
                 }
                 else {
-                    alert("Geocode was not successful for the following reason: " + status);
+                    alert("We were unable to find directions at this time: " + status);
                 }
             });
+            ////Refresh and clear for new routing if previous direction route exists
+            //if(directionsDisplay != null) {
+            //    directionsDisplay.setMap(null);
+            //    directionsDisplay = null; }
         }
     }; // end of controller function
 }());
