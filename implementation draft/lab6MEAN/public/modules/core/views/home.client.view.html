@@ -1,5 +1,5 @@
 <html ng-app="core">
-    <div flex layout="row" data-ng-controller="HomeController as ul">
+    <div flex layout="column" data-ng-controller="HomeController as ul">
         <!--&lt;!&ndash; Container #3 Left &ndash;&gt;-->
         <!--<md-sidenav md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left"-->
     <!--class="md-whiteframe-z2">-->
@@ -32,9 +32,8 @@
                             To:<input type="text" placeholder="Starting location"  ng-model="location"/>
                             From:<input type="text" placeholder="Destination"  ng-model="endingpoint" />
                             <input type="submit" value="Search" ng-click = "routeToLocation(location,endingpoint)"/><br><br>
-                            <div flex id="homeMap">
+                            <div flex id="homeMap"></div>
                                 <map center="1.352083, 103.819836" zoom="11"></map>
-                            </div>
                             <!--
                                 This is the div element where the map will be displayed. 	The div acts as a container for the map
                                 Please note we gave an id for the div elemnent, which is map
@@ -54,20 +53,20 @@
                             <ng-click="openInfoWindow($event, marker)">
 
                             <div flex id="routeInstruction"></div>
+                            <div flex><p>Testing</p></div>
                         </div>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab>
+                    <md-tab-label><text-color-set class="tab">Submit Report</text-color-set></md-tab-label>
+                    <md-tab-body>
+                        <p>Submit report</p>
                     </md-tab-body>
                 </md-tab>
                 <md-tab>
                     <md-tab-label><text-color-set class="tab">Traffic reports</text-color-set></md-tab-label>
                     <md-tab-body>
-                        <h3>{{ul.selected.mobile}}</h3>
-                        <p>Mobile</p>
-                        <h4>{{ul.selected.home}}</h4>
-                        <p>Home</p>
-                        <md-button class="share" md-no-ink ng-click="ul.share($event)"
-                                   aria-label="Share">
-                            <md-icon md-svg-icon="share" ></md-icon>
-                        </md-button>
+                        <p>View all reports</p>
                     </md-tab-body>
                 </md-tab>
             </md-tabs>
