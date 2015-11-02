@@ -1,0 +1,76 @@
+<html ng-app="core">
+    <div flex layout="row" data-ng-controller="HomeController as ul">
+        <!--&lt;!&ndash; Container #3 Left &ndash;&gt;-->
+        <!--<md-sidenav md-is-locked-open="$mdMedia('gt-sm')" md-component-id="left"-->
+    <!--class="md-whiteframe-z2">-->
+            <!--&lt;!&ndash;<md-list>&ndash;&gt;-->
+                <!--&lt;!&ndash;<md-list-item ng-repeat="it in ul.users">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<md-button ng-click="ul.selectUser(it)"&ndash;&gt;-->
+                               <!--&lt;!&ndash;ng-class="{'selected' : it === ul.selected }">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<md-icon md-svg-icon="{{it.avatar}}" class="avatar"></md-icon>&ndash;&gt;-->
+                        <!--&lt;!&ndash;{{it.name}}&ndash;&gt;-->
+                    <!--&lt;!&ndash;</md-button>&ndash;&gt;-->
+                <!--&lt;!&ndash;</md-list-item>&ndash;&gt;-->
+            <!--&lt;!&ndash;</md-list>&ndash;&gt;-->
+        <!--</md-sidenav>-->
+
+        <!-- Container #4 Right -->
+        <md-content flex id="content">
+            <!-- User details sample -->
+            <md-tabs md-dynamic-height md-stretch-tabs="always" md-selected="selectedIndex">
+                <md-tab>
+                    <md-tab-label><text-color-set class="tab">Directions</text-color-set></md-tab-label>
+                    <md-tab-body>
+                            <!--
+                                This is the div element where the map will be displayed. 	The div acts as a container for the map
+                                Please note we gave an id for the div elemnent, which is map
+                                This div element will be inside the ng-controller because all the logic associated for displaying
+                                the map is the javascript file.
+                            -->
+                        <div data-ng-controller="GMapController">
+                            <br>
+                            To:<input type="text" placeholder="Starting location"  ng-model="location"/>
+                            From:<input type="text" placeholder="Destination"  ng-model="endingpoint" />
+                            <input type="submit" value="Search" ng-click = "routeToLocation(location,endingpoint)"/><br><br>
+                            <div flex id="homeMap">
+                                <map center="1.352083, 103.819836" zoom="11"></map>
+                            </div>
+                            <!--
+                                This is the div element where the map will be displayed. 	The div acts as a container for the map
+                                Please note we gave an id for the div elemnent, which is map
+                                This div element will be inside the ng-controller because all the logic associated for displaying
+                                the map is the javascript file.
+                            -->
+
+
+                            <!--
+                              Here we create a text box, where user can input a location
+                              The input is stored in ng-model
+                               Once the user clicks the submit button, a function showLocation is executed
+                              The function has a parameter, which is the location inputted by the user
+                              The function is defined in the javascript file, and control is transferred to JS file
+
+                            <!-- <input type="submit" value="Search" ng-click = "showLocation(location);showLocation(endingpoint)"/>  -->
+                            <ng-click="openInfoWindow($event, marker)">
+
+                            <div flex id="routeInstruction"></div>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+                <md-tab>
+                    <md-tab-label><text-color-set class="tab">Traffic reports</text-color-set></md-tab-label>
+                    <md-tab-body>
+                        <h3>{{ul.selected.mobile}}</h3>
+                        <p>Mobile</p>
+                        <h4>{{ul.selected.home}}</h4>
+                        <p>Home</p>
+                        <md-button class="share" md-no-ink ng-click="ul.share($event)"
+                                   aria-label="Share">
+                            <md-icon md-svg-icon="share" ></md-icon>
+                        </md-button>
+                    </md-tab-body>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </div>
+</html>
