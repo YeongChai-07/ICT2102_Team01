@@ -195,13 +195,20 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         } // end of the showLocation function
         /* Route and display function found at Google Map API */
         $scope.toggleCollapsed = {collapsed:1,buttonCollapsed:1};
+        $scope.data = {vehicles:'any'};
 
         $scope.routeToLocation = function(location,endingpoint) {
             directionsDisplay.setDirections({routes: []});
+            var vehArray=[google.maps.TransitMode.TRAIN,google.maps.TransitMode.BUS];
+            //if($scope.data.vehicles=='any'){
+            //
+            //}
             var request = {
                 origin: location,
                 destination: endingpoint,
+                region: 'SG',
                 travelMode: google.maps.TravelMode.TRANSIT
+                //, transitOptions: {modes:vehArray}
             };
             //console.log(request);
             directionsService.route(request, function(response, status) {
@@ -209,20 +216,23 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     directionsDisplay.setDirections(response);
                     directionsDisplay.setMap($scope.map);
                     directionsDisplay.setPanel(document.getElementById('routeInstruction'));
-                    console.log($scope.toggleCollapsed.buttonCollapsed);
                     $scope.toggleCollapsed.buttonCollapsed = 0;
                     document.getElementById('routeDistance').innerHTML = ((response.routes[0].legs[0].distance.value)/1000).toFixed(0) + " km";
                     document.getElementById('routeDuration').innerHTML = ((response.routes[0].legs[0].duration.value)/60).toFixed(0) + " minutes";
-                    console.log(directionsDisplay);
+                    console.log(response.routes[0].legs[0].steps.length);
+                    //console.log(response.routes[0].legs[0].steps[0].transit.line.vehicle);
+
+                    for(var i=0;i<response.routes[0].legs[0].steps.length;i++){
+                        if(response.routes[0].legs[0].steps[i].travel_mode!="WALKING"){
+                            console.log(response.routes[0].legs[0].steps[i].transit.line.vehicle.name);
+                        }
+                    }
+
                 }
                 else {
-                    alert("We were unable to find directions at this time: " + status);
+                    alert("We were unable to find any directions.\nPlease try again with more specific location inputs, postal codes or removing certain filters.\nERR_MSG:"+ status);
                 }
             });
-            ////Refresh and clear for new routing if previous direction route exists
-            //if(directionsDisplay != null) {
-            //    directionsDisplay.setMap(null);
-            //    directionsDisplay = null; }
         }
     }; // end of controller function
 }());

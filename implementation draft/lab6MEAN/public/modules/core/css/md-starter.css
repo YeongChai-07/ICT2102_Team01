@@ -7,9 +7,6 @@ html, body {
 }
 /* Toolbar area */
 
-head{
-  border: 1px solid white;
-}
 .menu {
   background-color: transparent;
   border: solid white;
@@ -146,31 +143,42 @@ span.name {
 
 tabbing { padding-left: 4em; }
 
-.md-button.md-raised{
-  background-color:#72d172;
-  color:white;
+
+.md-button.routes{
+  background-color:lightskyblue;
+  color:whitesmoke;
 }
 .md-button:hover{
-  background-color:lightgreen;
-  background:lightgreen;
   color:black;
+  font-size:110%;
 }
 .md-button.md-raised:hover{
   background-color:lightgreen;
   background:lightgreen;
-  color:lavender;
+  color:black;
 }
 .md-button.md-raised:active{
-  background-color:royalblue;
+  background-color:skyblue;
   background:lightgreen;
   color:white;
 }
 .md-button.md-raised:active:hover{
-  background-color:#008C00;
+  background-color:skyblue;
   color:black;
-  font-size:120%;
 }
-
+section .routes{
+  background: palegreen;
+  border-radius: 3px;
+  margin: 1em;
+  position: relative !important;
+  padding-bottom: 10px;
+  padding-left:5px;
+  padding-right:5px;}
+.inputMenu{
+  background: #f7f7f7;
+  border: 1px solid lightgrey;
+  padding-left:5px;
+}
 /*.md-tabs-centered-wrapper{*/
   /*display:flex;*/
   /*justify-content:center;*/
