@@ -61,26 +61,48 @@
                     <md-tab-body>
                         <section data-ng-controller="ReportsController">
 							<div class="page-header">
-								<h1>New Report</h1>
+								<h1>New Congestion Report</h1>
 							</div>
-							<div class="col-md-12">
-								<form class="form-horizontal" data-ng-submit="create()" novalidate>
-									<fieldset>
-										<div class="form-group">
-											<label class="control-label" for="name">Name</label>
-											<div class="controls">
-												<input type="text" data-ng-model="name" id="name" class="form-control" placeholder="Name" required>
-											</div>
-										</div>
-										<div class="form-group">
-											<input type="submit" class="btn btn-default">
-										</div>
-										<div data-ng-show="error" class="text-danger">
-											<strong data-ng-bind="error"></strong>
-										</div>
-									</fieldset>
-								</form>
-							</div>
+
+                            <div class="col-md-12">
+                                <form class="form-horizontal" data-ng-submit="create()" novalidate>
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <label class="control-label" for="roadname">Road Name:</label>
+                                            <div class="controls">
+                                                <input type="text" data-ng-model="roadname" id="roadname" style="width: 500px" class="form-control" placeholder="Road Name" required>
+                                            </div>
+                                            <br>
+                                            <label class="control-label" for="category">Category:</label>
+
+                                            <md-radio-group data-ng-model="data.category">
+                                                <md-radio-button value="high" class="md-primary">High</md-radio-button>
+                                                <md-radio-button value="mid" class="md-primary">Mid</md-radio-button>
+                                                <md-radio-button value="low" class="md-primary">Low</md-radio-button>
+                                            </md-radio-group>
+                                            <br>
+                                            <label class="control-label" for="congestion">Level Of Congestion:</label>
+                                            <div class="controls">
+                                                <input type="text" data-ng-model="congestion" id="congestion" style="width: 500px" class="form-control" placeholder="Level Of Congestion" required>
+                                            </div>
+                                            <br>
+                                            <label class="control-label" for="time">Approximate Time To Clear Congestion:</label>
+                                            <div class="controls">
+                                                <input type="text" data-ng-model="time" id="time" style="width: 500px" class="form-control" placeholder="Time To Clear Congestion" required>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="button-group">
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                        </div>
+                                        <div data-ng-show="error" class="text-danger">
+                                            <strong data-ng-bind="error"></strong>
+                                        </div>
+                                        <div data-ng-show="message" class="text-success">
+                                            <strong data-ng-bind="message"></strong>
+                                        </div>
+                                    </fieldset>
+                                </form>
 						</section>
                     </md-tab-body>
                 </md-tab>
@@ -90,22 +112,24 @@
                     <md-tab-body>
                         <section data-ng-controller="ReportsController" data-ng-init="find()">
 							<div class="page-header">
-								<h1>Reports</h1>
-							</div>
-							<div class="list-group">
-								<a data-ng-repeat="report in reports" data-ng-href="#!/reports/{{report._id}}" class="list-group-item">
-									<small class="list-group-item-text">
-										Posted on
-										<span data-ng-bind="report.created | date:'medium'"></span>
-										by
-										<span data-ng-bind="report.user.displayName"></span>
-									</small>
-									<h4 class="list-group-item-heading" data-ng-bind="report.name"></h4>
-								</a>
-							</div>
-							<div class="alert alert-warning text-center" data-ng-hide="!reports.$resolved || reports.length">
-								No Reports yet, why don't you <a href="/#!/reports/create">create one</a>?
-							</div>
+                                <h1>Traffic Congestions</h1>
+                            </div>
+                            <div class="list-group">
+                                <a data-ng-repeat="report in reports" class="list-group-item">
+                                    Road Name: <span class="list-group-item-heading" data-ng-bind="report.roadname"></span>
+                                    <br>
+                                    Category: <span class="list-group-item-heading" data-ng-bind="report.category"></span>
+                                    <br>
+                                    Congestion: <span class="list-group-item-heading" data-ng-bind="report.congestion"></span>
+                                    <br>
+                                    Time: <span class="list-group-item-heading" data-ng-bind="report.time"></span>
+                                    <br>
+                                    Posted By: <span class="list-group-item-heading" data-ng-bind="report.user.displayName"></span>
+                                </a>
+                            </div>
+                            <div class="alert alert-warning text-center" data-ng-hide="!reports.$resolved || reports.length">
+                                No Reports yet, why don't you <a href="/#!/reports/create">create one</a>?
+                            </div>
 						</section>
                     </md-tab-body>
                 </md-tab>

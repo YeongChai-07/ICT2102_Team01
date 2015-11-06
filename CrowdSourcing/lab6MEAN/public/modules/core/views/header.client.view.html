@@ -1,0 +1,42 @@
+<div data-ng-controller="HeaderController" flex>
+    <md-toolbar layout="row" data-ng-controller="HomeController as ul">
+        <!--<md-button class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show User List">-->
+            <!--<md-icon md-svg-icon="menu"></md-icon>-->
+        <!--</md-button>-->
+        <h1 text-color-set class="heading"><b>TRANSPORT APP</b></text-color-set></h1>
+        <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
+
+            <ul class="nav navbar-nav navbar-left" data-ng-hide="authentication.user">
+                <li ui-route="/signup" ng-class="{active: $uiRoute}">
+                    <a href="/#!/signup" style="color: #FFFFFF">Sign Up</a>
+                </li>
+                <li class="divider-vertical"></li>
+                <li ui-route="/signin" ng-class="{active: $uiRoute}">
+                    <a href="/#!/signin" style="color: #FFFFFF">Sign In</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-left" data-ng-show="authentication.user">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span data-ng-bind="authentication.user.displayName" style="color: #FFFFFF"></span> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/#!/settings/profile">Edit Profile</a>
+                        </li>
+                        <li>
+                            <a href="/#!/settings/accounts">Manage Social Accounts</a>
+                        </li>
+                        <li data-ng-show="authentication.user.provider === 'local'">
+                            <a href="/#!/settings/password">Change Password</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/auth/signout">Signout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </md-toolbar>
+</div>

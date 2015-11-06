@@ -17,10 +17,14 @@ angular.module('reports').controller('ReportsController', ['$scope', '$statePara
 
 			// Redirect after save
 			report.$save(function(response) {
-				$location.path('reports/' + response._id);
+				//$location.path('/#!/');
+				$scope.message = "Saved successfully!!!";
 
 				// Clear form fields
-				$scope.name = '';
+				$scope.roadname = '',
+					$scope.category = '',
+					$scope.congestion = '',
+					$scope.time = '';
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});

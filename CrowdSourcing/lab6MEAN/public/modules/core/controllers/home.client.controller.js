@@ -16,7 +16,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
          * @constructor
          */
 
-
             // Load all registered users
 
         usersService
@@ -78,8 +77,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             }).then(function(clickedItem) {
                 $log.debug( clickedItem.name + ' clicked!');
             });
-
-
         }
 
         var self = this;

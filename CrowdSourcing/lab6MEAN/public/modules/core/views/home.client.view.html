@@ -62,7 +62,7 @@
                                                 <input type="text" data-ng-model="roadname" id="roadname" style="width: 500px" class="form-control" placeholder="Road Name" required>
                                             </div>
                                             <br>
-                                            <label class="control-label" for="data.category">Category:</label>
+                                            <label class="control-label" for="category">Category:</label>
                                            <!-- <div class="controls">
                                                 <input type="text" data-ng-model="category" id="category" style="width: 500px" class="form-control" placeholder="Category" required>
                                             </div>-->
@@ -72,7 +72,7 @@
                                                 <md-checkbox value="mid">Mid</md-checkbox>
                                                 <md-checkbox value="low">Low</md-checkbox>
                                             </md-checkbox>-->
-                                            <md-radio-group ng-model="data.category">
+                                            <md-radio-group data-ng-model="data.category">
                                                 <md-radio-button value="high" class="md-primary">High</md-radio-button>
                                                 <md-radio-button value="mid" class="md-primary">Mid</md-radio-button>
                                                 <md-radio-button value="low" class="md-primary">Low</md-radio-button>
@@ -95,6 +95,9 @@
                                         <div data-ng-show="error" class="text-danger">
                                             <strong data-ng-bind="error"></strong>
                                         </div>
+                                        <div data-ng-show="message" class="text-success">
+                                            <strong data-ng-bind="message"></strong>
+                                        </div>
                                     </fieldset>
                                 </form>
                             </div>
@@ -110,11 +113,16 @@
                                 <h1>Traffic Congestions</h1>
                             </div>
                             <div class="list-group">
-                                <a data-ng-repeat="report in reports" data-ng-href="#!/reports/{{report._id}}" class="list-group-item">
-                                    <h3 class="list-group-item-heading" data-ng-bind="report.roadname"></h3>
-                                    <h3 class="list-group-item-heading" data-ng-bind="report.category"></h3>
-                                    <h3 class="list-group-item-heading" data-ng-bind="report.congestion"></h3>
-                                    <h3 class="list-group-item-heading" data-ng-bind="report.time"></h3>
+                                <a data-ng-repeat="report in reports" class="list-group-item">
+                                    Road Name: <span class="list-group-item-heading" data-ng-bind="report.roadname"></span>
+                                    <br>
+                                    Category: <span class="list-group-item-heading" data-ng-bind="report.category"></span>
+                                    <br>
+                                    Congestion: <span class="list-group-item-heading" data-ng-bind="report.congestion"></span>
+                                    <br>
+                                    Time: <span class="list-group-item-heading" data-ng-bind="report.time"></span>
+                                    <br>
+                                    Posted By: <span class="list-group-item-heading" data-ng-bind="report.user.displayName"></span>
                                 </a>
                             </div>
                             <div class="alert alert-warning text-center" data-ng-hide="!reports.$resolved || reports.length">
@@ -123,13 +131,6 @@
                         </section>
                     </md-tab-body>
                 </md-tab>
-                <md-tab>
-                    <md-tab-label><text-color-set class="tab">Sign In/ Sign Up</text-color-set></md-tab-label>
-                    <md-body>
-
-                    </md-body>
-                </md-tab>
             </md-tabs>
-        </md-content>
-        </div>
+    </div>
 </html>
