@@ -63,25 +63,22 @@
                                             </div>
                                             <br>
                                             <label class="control-label" for="category">Category:</label>
-                                           <!-- <div class="controls">
-                                                <input type="text" data-ng-model="category" id="category" style="width: 500px" class="form-control" placeholder="Category" required>
-                                            </div>-->
-                                           <!-- <md-checkbox ng-model="data.category">
-                                                <md-checkbox value="any">Choose A Category</md-checkbox>
-                                                <md-checkbox value="high">High</md-checkbox>
-                                                <md-checkbox value="mid">Mid</md-checkbox>
-                                                <md-checkbox value="low">Low</md-checkbox>
-                                            </md-checkbox>-->
+
                                             <md-radio-group data-ng-model="data.category">
-                                                <md-radio-button value="high" class="md-primary">High</md-radio-button>
-                                                <md-radio-button value="mid" class="md-primary">Mid</md-radio-button>
-                                                <md-radio-button value="low" class="md-primary">Low</md-radio-button>
+                                                <md-radio-button value="mrt" class="md-primary">MRT Disruption</md-radio-button>
+                                                <md-radio-button value="accident" class="md-primary">Accident</md-radio-button>
+                                                <md-radio-button value="roadworks" class="md-primary">Road Works</md-radio-button>
+                                                <md-radio-button value="weather" class="md-primary">Weather</md-radio-button>
                                             </md-radio-group>
                                             <br>
                                             <label class="control-label" for="congestion">Level Of Congestion:</label>
-                                            <div class="controls">
-                                                <input type="text" data-ng-model="congestion" id="congestion" style="width: 500px" class="form-control" placeholder="Level Of Congestion" required>
-                                            </div>
+
+                                            <md-radio-group data-ng-model="data.congestion">
+                                                <md-radio-button value="high" class="md-primary">High</md-radio-button>
+                                                <md-radio-button value="mid" class="md-primary">Medium</md-radio-button>
+                                                <md-radio-button value="low" class="md-primary">Low</md-radio-button>
+                                            </md-radio-group>
+
                                             <br>
                                             <label class="control-label" for="time">Approximate Time To Clear Congestion:</label>
                                             <div class="controls">
@@ -92,12 +89,14 @@
                                         <div class="button-group">
                                             <button type="submit" class="btn btn-success">Submit</button>
                                         </div>
+                                        <br>
                                         <div data-ng-show="error" class="text-danger">
                                             <strong data-ng-bind="error"></strong>
                                         </div>
                                         <div data-ng-show="message" class="text-success">
                                             <strong data-ng-bind="message"></strong>
                                         </div>
+                                        <br>
                                     </fieldset>
                                 </form>
                             </div>
