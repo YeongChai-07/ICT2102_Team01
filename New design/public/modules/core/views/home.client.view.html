@@ -1,7 +1,16 @@
 <html ng-app="core">
     <div flex layout="column" data-ng-controller="HomeController as ul" id="mainPage">
-        <header class="navbar navbar-fixed-top">
-            <div class="md-toolbar"><b>TRANSPORT APP</b>
+        <header flex class="navbar navbar-fixed-top">
+            <div flex class="md-toolbar"><b>TRANSPORT APP</b>
+                <ul layout="column" class="navbar-right" data-ng-hide="authentication.user">
+                    <li ui-route="/signup" ng-class="{active: $uiRoute}">
+                        <a href="/#!/signup" style="color: #FFFFFF">Sign Up</a>
+                    </li>
+                    <li class="divider-vertical"></li>
+                    <li ui-route="/signin" ng-class="{active: $uiRoute}">
+                        <a href="/#!/signin" style="color: #FFFFFF">Sign In</a>
+                    </li>
+                </ul>
             </div>
             <md-tabs class="md-primary" flex md-stretch-tabs="always" md-selected="selectedIndex">
                 <md-tab label="Directions"></md-tab>
@@ -60,10 +69,9 @@
                     <md-tab-label><text-color-set class="tab">Submit Report</text-color-set></md-tab-label>
                     <md-tab-body>
                         <section data-ng-controller="ReportsController">
-							<div class="page-header">
-								<h1>New Congestion Report</h1>
-							</div>
-
+                            <div class="page-header">
+                                <h1>New Congestion Report</h1>
+                            </div>
                             <div class="col-md-12">
                                 <form class="form-horizontal" data-ng-submit="create()" novalidate>
                                     <fieldset>
@@ -83,7 +91,6 @@
                                             </md-radio-group>
                                             <br>
                                             <label class="control-label" for="congestion">Level Of Congestion:</label>
-
                                             <md-radio-group data-ng-model="data.congestion">
                                                 <md-radio-button value="high" class="md-primary">High</md-radio-button>
                                                 <md-radio-button value="mid" class="md-primary">Medium</md-radio-button>
@@ -109,16 +116,16 @@
                                         <br>
                                     </fieldset>
                                 </form>
-                                </div>
-						</section>
+                            </div>
+                        </section>
                     </md-tab-body>
                 </md-tab>
-<!--Display reports-->
+                <!--Display reports-->
                 <md-tab>
                     <md-tab-label><text-color-set class="tab">Traffic reports</text-color-set></md-tab-label>
                     <md-tab-body>
                         <section data-ng-controller="ReportsController" data-ng-init="find()">
-							<div class="page-header">
+                            <div class="page-header">
                                 <h1>Traffic Congestions</h1>
                             </div>
                             <div class="list-group">
@@ -137,7 +144,7 @@
                             <div class="alert alert-warning text-center" data-ng-hide="!reports.$resolved || reports.length">
                                 No Reports yet, why don't you <a href="/#!/reports/create">create one</a>?
                             </div>
-						</section>
+                        </section>
                     </md-tab-body>
                 </md-tab>
             </md-tabs>

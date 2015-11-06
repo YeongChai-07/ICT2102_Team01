@@ -9,15 +9,22 @@ angular.module('reports').controller('ReportsController', ['$scope', '$statePara
 		$scope.create = function() {
 			// Create new Report object
 			var report = new Reports ({
-				name: this.name
+				roadname: this.roadname,
+				category:this.data.category,
+				congestion:this.data.congestion,
+				time:this.time
 			});
 
 			// Redirect after save
 			report.$save(function(response) {
-				$location.path('reports/' + response._id);
+				//$location.path('/#!/');
+				$scope.message = "Saved successfully!!!";
 
 				// Clear form fields
-				$scope.name = '';
+				$scope.roadname = '',
+					$scope.category = '',
+					$scope.congestion = '',
+					$scope.time = '';
 			}, function(errorResponse) {
 				$scope.error = errorResponse.data.message;
 			});
@@ -25,7 +32,7 @@ angular.module('reports').controller('ReportsController', ['$scope', '$statePara
 
 		// Remove existing Report
 		$scope.remove = function(report) {
-			if ( report ) { 
+			if ( report ) {
 				report.$remove();
 
 				for (var i in $scope.reports) {
@@ -58,7 +65,7 @@ angular.module('reports').controller('ReportsController', ['$scope', '$statePara
 
 		// Find existing Report
 		$scope.findOne = function() {
-			$scope.report = Reports.get({ 
+			$scope.report = Reports.get({
 				reportId: $stateParams.reportId
 			});
 		};

@@ -9,46 +9,6 @@ var mongoose = require('mongoose'),
 	_ = require('lodash');
 
 /**
- * Report Schema
- */
-var ReportSchema = new Schema({
-	roadname: {
-		type: String,
-		default: '',
-		required: 'Please fill Road name',
-		trim: true
-	},
-	category:{
-		type: String,
-		default:'',
-		required: 'Please fill Category',
-		trim: true
-	},
-	congestion:{
-		type: String,
-		default:'',
-		required: 'Please fill Congestion',
-		trim: true
-	},
-	time:{
-		type: String,
-		default:'',
-		required: 'Please fill Time',
-		trim: true
-	},
-	created: {
-		type: Date,
-		default: Date.now
-	},
-	user: {
-		type: Schema.ObjectId,
-		ref: 'User'
-	}
-});
-
-mongoose.model('Report', ReportSchema);
-
-/**
  * Create a Report
  */
 exports.create = function(req, res) {
@@ -112,7 +72,7 @@ exports.delete = function(req, res) {
 /**
  * List of Reports
  */
-exports.list = function(req, res) { 
+exports.list = function(req, res) {
 	Report.find().sort('-created').populate('user', 'displayName').exec(function(err, reports) {
 		if (err) {
 			return res.status(400).send({
@@ -127,7 +87,7 @@ exports.list = function(req, res) {
 /**
  * Report middleware
  */
-exports.reportByID = function(req, res, next, id) { 
+exports.reportByID = function(req, res, next, id) {
 	Report.findById(id).populate('user', 'displayName').exec(function(err, report) {
 		if (err) return next(err);
 		if (! report) return next(new Error('Failed to load Report ' + id));

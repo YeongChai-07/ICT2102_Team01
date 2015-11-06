@@ -10,10 +10,28 @@ var mongoose = require('mongoose'),
  * Report Schema
  */
 var ReportSchema = new Schema({
-	name: {
+	roadname: {
 		type: String,
 		default: '',
-		required: 'Please fill Report name',
+		required: 'Please fill Road name',
+		trim: true
+	},
+	category:{
+		type: String,
+		default:'',
+		required: 'Please fill Category',
+		trim: true
+	},
+	congestion:{
+		type: String,
+		default:'',
+		required: 'Please fill Congestion',
+		trim: true
+	},
+	time:{
+		type: String,
+		default:'',
+		required: 'Please fill Time',
 		trim: true
 	},
 	created: {
