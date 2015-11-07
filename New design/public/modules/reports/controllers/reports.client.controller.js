@@ -1,8 +1,8 @@
 'use strict';
 
 // Reports controller
-angular.module('reports').controller('ReportsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Reports',
-	function($scope, $stateParams, $location, Authentication, Reports) {
+angular.module('reports').controller('ReportsController', ['$scope','$mdDialog', '$stateParams', '$location', 'Authentication', 'Reports',
+	function($scope,$mdDialog, $stateParams, $location, Authentication, Reports) {
 		$scope.authentication = Authentication;
 
 		// Create new Report
@@ -19,7 +19,20 @@ angular.module('reports').controller('ReportsController', ['$scope', '$statePara
 			report.$save(function(response) {
 				//$location.path('/#!/');
 				$scope.message = "Saved successfully!!!";
-
+				$mdDialog.show(
+					$mdDialog.alert()
+						.parent(angular.element(document.querySelector('#mainPage')))
+						.clickOutsideToClose(true)
+						.title('Thank you for contributing!')
+						.content('Your traffic congestion report was saved successfully!')
+						.ok('Alright!')
+						.targetEvent()
+				);
+				if($location.path()!='/#!/'){
+					setTimeout(function () {
+						window.location.href = "/#!/";
+					}, 2000);
+				}
 				// Clear form fields
 				$scope.roadname = '',
 					$scope.category = '',
@@ -29,7 +42,6 @@ angular.module('reports').controller('ReportsController', ['$scope', '$statePara
 				$scope.error = errorResponse.data.message;
 			});
 		};
-
 		// Remove existing Report
 		$scope.remove = function(report) {
 			if ( report ) {
@@ -69,5 +81,6 @@ angular.module('reports').controller('ReportsController', ['$scope', '$statePara
 				reportId: $stateParams.reportId
 			});
 		};
+
 	}
 ]);

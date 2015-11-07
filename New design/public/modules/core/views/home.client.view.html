@@ -1,16 +1,45 @@
 <html ng-app="core">
     <div flex layout="column" data-ng-controller="HomeController as ul" id="mainPage">
         <header flex class="navbar navbar-fixed-top">
-            <div flex class="md-toolbar"><b>TRANSPORT APP</b>
-                <ul layout="column" class="navbar-right" data-ng-hide="authentication.user">
-                    <li ui-route="/signup" ng-class="{active: $uiRoute}">
-                        <a href="/#!/signup" style="color: #FFFFFF">Sign Up</a>
-                    </li>
-                    <li class="divider-vertical"></li>
-                    <li ui-route="/signin" ng-class="{active: $uiRoute}">
-                        <a href="/#!/signin" style="color: #FFFFFF">Sign In</a>
-                    </li>
-                </ul>
+            <div data-ng-controller="HeaderController">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()">
+                        <md-icon md-svg-icon="menu"></md-icon>
+                    </button>
+                    <a href="/#!/" class="navbar-brand">TRANSPORT APP</a>
+                </div>
+                <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
+                    <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
+                        <li ui-route="/signin" ng-class="{active: $uiRoute}">
+                            <a href="/#!/signin" style="color:white;">Sign In</a>
+                        </li>
+                        <li ui-route="/signup" ng-class="{active: $uiRoute}">
+                            <a href="/#!/signup" style="color:white;padding-right:15px;">Sign Up&nbsp;</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span style="color:white;" data-ng-bind="authentication.user.displayName"></span> <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/#!/settings/profile">Edit Profile</a>
+                                </li>
+                                <li>
+                                    <a href="/#!/settings/accounts">Manage Social Accounts</a>
+                                </li>
+                                <li data-ng-show="authentication.user.provider === 'local'">
+                                    <a href="/#!/settings/password">Change Password</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="/auth/signout">Signout</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
             </div>
             <md-tabs class="md-primary" flex md-stretch-tabs="always" md-selected="selectedIndex">
                 <md-tab label="Directions"></md-tab>
@@ -18,18 +47,21 @@
                 <md-tab label="View Traffic Reports"></md-tab>
             </md-tabs>
         </header>
-        <!-- Container #4 Right -->
+<!--Body-->
+<!-- Container #4 Right -->
         <md-content flex id="content">
             <md-tabs class="noTabPanel" md-dynamic-height md-selected="selectedIndex">
                 <md-tab label="Directions">
                     <md-tab-body>
                         <div data-ng-controller="GMapController">
-                        <md-button class="md-fab md-fab-top-right" ng-hide="toggleCollapsed.buttonCollapsed" ng-click="toggleCollapsed.buttonCollapsed=1">
+                    <!--Edit button: to redisplay the directions input form after hiding-->
+                        <md-button class="md-fab md-accent md-fab-top-right" ng-hide="toggleCollapsed.buttonCollapsed" ng-click="toggleCollapsed.buttonCollapsed=1">
                             <md-icon md-svg-src="modules/core/img/svg/mode_edit.svg"></md-icon>
+                            <!--<span style="color:#f7f7f7;">Edit</span>-->
                         </md-button>
                         <br>
 <!--User Input-->
-                            <h2 class="md-display-1">Find Directions</h2>
+                            <h2 class="md-display-1">Find your way around Singapore!</h2>
                             <section class="inputMenu" ng-show="toggleCollapsed.buttonCollapsed">
                                 <b class="md-subhead">Preferred transport:</b>
                                 <md-radio-group layout="row" ng-model="data.vehicles">
@@ -66,17 +98,64 @@
                 </md-tab>
 <!--Make reports-->
                 <md-tab>
-                    <md-tab-label><text-color-set class="tab">Submit Report</text-color-set></md-tab-label>
                     <md-tab-body>
-                        <section data-ng-controller="ReportsController">
+<!--Request log-in before submitting report-->
+                        <section data-ng-hide="authentication.user" class="column" data-ng-controller="AuthenticationController">
+                            <h2 class="md-display-1 text-center">You have to sign in first!</h2>
+                            <h3 class="col-md-12 text-center">Sign in using your social accounts</h3>
+                            <div class="col-md-12 text-center" layout="row" layout-align="center">
+                                <a href="/auth/facebook" class="undecorated-link">
+                                    <img src="/modules/users/img/buttons/facebook.png">
+                                </a>
+                                <a href="/auth/twitter" class="undecorated-link">
+                                    <img src="/modules/users/img/buttons/twitter.png">
+                                </a>
+                                <a href="/auth/google" class="undecorated-link">
+                                    <img src="/modules/users/img/buttons/google.png">
+                                </a>
+                                <a href="/auth/linkedin" class="undecorated-link">
+                                    <img src="/modules/users/img/buttons/linkedin.png">
+                                </a>
+                                <a href="/auth/github" class="undecorated-link">
+                                    <img src="/modules/users/img/buttons/github.png">
+                                </a>
+                            </div>
+                            <h3 class="col-md-12 text-center">Or with your account</h3>
+                            <div class="col-xs-offset-2 col-xs-8 col-md-offset-5 col-md-2">
+                                <form data-ng-submit="signin()" class="signin form-horizontal" autocomplete="off">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <label for="username">Username</label>
+                                            <input type="text" id="username" name="username" class="form-control" data-ng-model="credentials.username" placeholder="Username">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password">Password</label>
+                                            <input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
+                                        </div>
+                                        <div class="text-center form-group">
+                                            <button type="submit" class="btn btn-primary">Sign in</button>&nbsp; or&nbsp;
+                                            <a href="/#!/signup">Sign up</a>
+                                        </div>
+                                        <div class="forgot-password">
+                                            <a href="/#!/password/forgot">Forgot your password?</a>
+                                        </div>
+                                        <div data-ng-show="error" class="text-center text-danger">
+                                            <strong data-ng-bind="error"></strong>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </section>
+<!--Show traffic report form if logged in-->
+                        <section data-ng-show="authentication.user" data-ng-controller="ReportsController">
                             <div class="page-header">
-                                <h1>New Congestion Report</h1>
+                                <h2 class="md-display-1">Know about an congested area? Share it by submitting a report!</h2>
                             </div>
                             <div class="col-md-12">
                                 <form class="form-horizontal" data-ng-submit="create()" novalidate>
                                     <fieldset>
                                         <div class="form-group">
-                                            <label class="control-label" for="roadname">Road Name:</label>
+                                            <label class="control-label" for="roadname">Location:</label>
                                             <div class="controls">
                                                 <input type="text" data-ng-model="roadname" id="roadname" style="width: 500px" class="form-control" placeholder="Road Name" required>
                                             </div>
@@ -84,17 +163,19 @@
                                             <label class="control-label" for="category">Category:</label>
 
                                             <md-radio-group data-ng-model="data.category">
-                                                <md-radio-button value="mrt" class="md-primary">MRT Disruption</md-radio-button>
-                                                <md-radio-button value="accident" class="md-primary">Accident</md-radio-button>
-                                                <md-radio-button value="roadworks" class="md-primary">Road Works</md-radio-button>
-                                                <md-radio-button value="weather" class="md-primary">Weather</md-radio-button>
+                                                <md-radio-button value="MRT" class="md-primary">MRT Disruption</md-radio-button>
+                                                <md-radio-button value="Heavy Traffic" class="md-primary">Heavy Traffic</md-radio-button>
+                                                <md-radio-button value="Accident" class="md-primary">Accident</md-radio-button>
+                                                <md-radio-button value="Roadworks" class="md-primary">Road Works</md-radio-button>
+                                                <md-radio-button value="Weather" class="md-primary">Weather</md-radio-button>
+                                                <md-radio-button value="Others" class="md-primary">Others</md-radio-button>
                                             </md-radio-group>
                                             <br>
                                             <label class="control-label" for="congestion">Level Of Congestion:</label>
                                             <md-radio-group data-ng-model="data.congestion">
-                                                <md-radio-button value="high" class="md-primary">High</md-radio-button>
-                                                <md-radio-button value="mid" class="md-primary">Medium</md-radio-button>
-                                                <md-radio-button value="low" class="md-primary">Low</md-radio-button>
+                                                <md-radio-button value="High" class="md-primary">High</md-radio-button>
+                                                <md-radio-button value="Medium" class="md-primary">Medium</md-radio-button>
+                                                <md-radio-button value="Low" class="md-primary">Low</md-radio-button>
                                             </md-radio-group>
                                             <br>
                                             <label class="control-label" for="time">Approximate Time To Clear Congestion:</label>
@@ -120,25 +201,24 @@
                         </section>
                     </md-tab-body>
                 </md-tab>
-                <!--Display reports-->
+<!--Display reports-->
                 <md-tab>
-                    <md-tab-label><text-color-set class="tab">Traffic reports</text-color-set></md-tab-label>
                     <md-tab-body>
                         <section data-ng-controller="ReportsController" data-ng-init="find()">
                             <div class="page-header">
-                                <h1>Traffic Congestions</h1>
+                                <h2 class="md-display-1">View all current congestion reports!</h2>
                             </div>
                             <div class="list-group">
                                 <a data-ng-repeat="report in reports" class="list-group-item">
-                                    Road Name: <span class="list-group-item-heading" data-ng-bind="report.roadname"></span>
+                                    <b class="md-title" style="color:red;" data-ng-bind="report.roadname"></b>
                                     <br>
-                                    Category: <span class="list-group-item-heading" data-ng-bind="report.category"></span>
+                                    <b>Category:</b> <span class="list-group-item-heading" data-ng-bind="report.category"></span>
                                     <br>
-                                    Congestion: <span class="list-group-item-heading" data-ng-bind="report.congestion"></span>
+                                    <b>Congestion level: </b><span class="list-group-item-heading" data-ng-bind="report.congestion"></span>
                                     <br>
-                                    Time: <span class="list-group-item-heading" data-ng-bind="report.time"></span>
+                                    <b>Time:</b> <span class="list-group-item-heading" data-ng-bind="report.time"></span>
                                     <br>
-                                    Posted By: <span class="list-group-item-heading" data-ng-bind="report.user.displayName"></span>
+                                    <small class="list-group-item-text">Posted By: <span data-ng-bind="report.user.displayName"></span> on <span data-ng-bind="report.created | date:'medium'"></span></small>
                                 </a>
                             </div>
                             <div class="alert alert-warning text-center" data-ng-hide="!reports.$resolved || reports.length">

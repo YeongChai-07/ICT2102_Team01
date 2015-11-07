@@ -13,25 +13,25 @@ var ReportSchema = new Schema({
 	roadname: {
 		type: String,
 		default: '',
-		required: 'Please fill Road name',
+		required: 'Please fill in the venue of your traffic report.',
 		trim: true
 	},
 	category:{
 		type: String,
 		default:'',
-		required: 'Please fill Category',
+		required: 'Please fill in category of congestion',
 		trim: true
 	},
 	congestion:{
 		type: String,
 		default:'',
-		required: 'Please fill Congestion',
+		required: 'Please fill in the level of congestion',
 		trim: true
 	},
 	time:{
 		type: String,
 		default:'',
-		required: 'Please fill Time',
+		required: 'Please fill in the estimated congestion time.',
 		trim: true
 	},
 	created: {

@@ -29,7 +29,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         // *********************************
         // Internal methods
         // *********************************
-
         /**
          * Hide or Show the 'left' sideNav area
          */
