@@ -87,23 +87,12 @@
                            <div flex id="homeMap"></div>
                             <map center="1.352083, 103.819836" zoom="10"></map>
                             <ng-click="openInfoWindow($event, marker)">
-                            <section class="routes hide-sm" layout="row" layout-wrap>
-                                <div layout="column" ng-repeat="rb in routeButtons" flex="25">
-                                    <md-button class='md-raised md-hover routes' ng-hide={{rb.buttonCollapsedAttr}} ng-click="redisplayRoute({{rb.routeID}});goToSteps()">
+                            <section class="routes" layout="column" layout-phone="column" ng-repeat="rb in routeButtons" flex>
+                                    <md-button class='md-raised md-hover routes' ng-hide={{rb.buttonCollapsedAttr}} ng-click={{rb.clickCollapsed}}>
                                         <b>Route {{rb.routeID+1}}: </b><i>{{rb.routeDistance}}</i>, <i>{{rb.routeDuration}}</i><br>
-                                        <i>{{rb.transportType;}}</i><br>
-                                        <i>Click to see route details</i>
+                                        <i>Click to see/hide route details</i><br/>
                                     </md-button>
-                                </div>
-                            </section>
-                            <section class="routes hide-gt-sm" layout="column" layout-wrap>
-                                <div layout="column" ng-repeat="rb in routeButtons">
-                                    <md-button class='md-raised md-hover routes' ng-hide={{rb.buttonCollapsedAttr}} ng-click="redisplayRoute({{rb.routeID}});goToSteps()">
-                                        <b>Route {{rb.routeID+1}}: </b><i>{{rb.routeDistance}}</i>, <i>{{rb.routeDuration}}</i><br>
-                                        <i>{{rb.transportType;}}</i><br>
-                                        <i>Click to see route details</i>
-                                    </md-button>
-                                </div>
+								    <div layout-align="center" class="panel" ng-hide={{rb.divCollapsedAttr}} id={{rb.divInstructionID}}></div>
                             </section>
                             <div flex layout-align="center" class="panel" id="routeInstruction"></div>
                         </div>
