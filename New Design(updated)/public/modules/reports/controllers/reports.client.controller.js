@@ -87,10 +87,36 @@ angular.module('reports').controller('ReportsController', ['$scope','$mdDialog',
 
 		$scope.incrementUpvotes = function(report) {
 			report.upvotes += 1;
+			report.$update(function() {
+				$mdDialog.show(
+					$mdDialog.alert()
+						.parent(angular.element(document.querySelector('#mainPage')))
+						.clickOutsideToClose(true)
+						.title('Thank you for contributing!')
+						.content('Your vote has been saved!')
+						.ok('Alright!')
+						.targetEvent()
+				);
+			}, function(errorResponse) {
+				alert("Voting failed");
+			});
 		};
 
 		$scope.incrementDownvotes = function(report) {
 			report.downvotes -= 1;
+			report.$update(function() {
+				$mdDialog.show(
+					$mdDialog.alert()
+						.parent(angular.element(document.querySelector('#mainPage')))
+						.clickOutsideToClose(true)
+						.title('Thank you for contributing!')
+						.content('Your vote has been saved!')
+						.ok('Alright!')
+						.targetEvent()
+				);
+			}, function(errorResponse) {
+				alert("Voting failed");
+			});
 		};
 
 	}
