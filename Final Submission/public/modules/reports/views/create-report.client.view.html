@@ -1,0 +1,92 @@
+<header flex class="navbar navbar-fixed-top">
+    <div data-ng-controller="HeaderController">
+        <div class="navbar-header">
+            <button class="navbar-toggle" type="button" data-ng-click="toggleCollapsibleMenu()">
+                <md-icon md-svg-icon="menu"></md-icon>
+            </button>
+            <a href="/#!/" class="navbar-brand">TRANSPORT APP</a>
+        </div>
+        <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
+            <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
+                <li ui-route="/signin" ng-class="{active: $uiRoute}">
+                    <a href="/#!/signin" style="color:white;">Sign In</a>
+                </li>
+                <li ui-route="/signup" ng-class="{active: $uiRoute}">
+                    <a href="/#!/signup" style="color:white;">Sign Up</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <span data-ng-bind="authentication.user.displayName"></span> <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/#!/settings/profile">Edit Profile</a>
+                        </li>
+                        <li>
+                            <a href="/#!/settings/accounts">Manage Social Accounts</a>
+                        </li>
+                        <li data-ng-show="authentication.user.provider === 'local'">
+                            <a href="/#!/settings/password">Change Password</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/auth/signout">Signout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<section data-ng-controller="ReportsController">
+    <div class="page-header">
+        <h1>New Congestion Report</h1>
+    </div>
+    <div class="col-md-12">
+        <form class="form-horizontal" data-ng-submit="create()" novalidate>
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label" for="roadname">Road Name:</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="roadname" id="roadname" style="width: 500px" class="form-control" placeholder="Road Name" required>
+                    </div>
+                    <br>
+                    <label class="control-label" for="category">Category:</label>
+
+                    <md-radio-group data-ng-model="data.category">
+                        <md-radio-button value="MRT" class="md-primary">MRT Disruption</md-radio-button>
+                        <md-radio-button value="Accident" class="md-primary">Accident</md-radio-button>
+                        <md-radio-button value="Roadworks" class="md-primary">Road Works</md-radio-button>
+                        <md-radio-button value="Weather" class="md-primary">Weather</md-radio-button>
+                    </md-radio-group>
+                    <br>
+                    <label class="control-label" for="congestion">Level Of Congestion:</label>
+                    <md-radio-group data-ng-model="data.congestion">
+                        <md-radio-button value="High" class="md-primary">High</md-radio-button>
+                        <md-radio-button value="Mid" class="md-primary">Medium</md-radio-button>
+                        <md-radio-button value="Low" class="md-primary">Low</md-radio-button>
+                    </md-radio-group>
+                    <br>
+                    <label class="control-label" for="time">Approximate Time To Clear Congestion:</label>
+                    <div class="controls">
+                        <input type="text" data-ng-model="time" id="time" style="width: 500px" class="form-control" placeholder="Time To Clear Congestion" required>
+                    </div>
+                </div>
+                <br>
+                <div class="button-group">
+                    <button type="submit" class="btn btn-success" onclick="redirectHome()">Submit</button>
+                </div>
+                <br>
+                <div data-ng-show="error" class="text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+                <div data-ng-show="message" class="text-success">
+                    <strong data-ng-bind="message"></strong>
+                </div>
+                <br>
+            </fieldset>
+        </form>
+    </div>
+</section>
