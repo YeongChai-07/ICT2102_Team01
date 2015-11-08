@@ -1,5 +1,6 @@
 <html ng-app="core">
     <div flex layout="column" data-ng-controller="HomeController as ul" id="mainPage">
+<!--Header-->
         <header flex class="navbar navbar-fixed-top">
             <div data-ng-controller="HeaderController">
                 <div class="navbar-header">
@@ -41,7 +42,7 @@
                     </ul>
                 </nav>
             </div>
-            <md-tabs class="md-primary" flex md-stretch-tabs="always" md-selected="selectedIndex">
+            <md-tabs class="md-primary" flex md-dynamic-height md-stretch-tabs="always" md-selected="selectedIndex">
                 <md-tab label="Directions"></md-tab>
                 <md-tab label="Submit Traffic Report"></md-tab>
                 <md-tab label="View Traffic Reports"></md-tab>
@@ -50,18 +51,19 @@
 <!--Body-->
 <!-- Container #4 Right -->
         <md-content flex id="content">
-            <md-tabs class="noTabPanel" md-dynamic-height md-selected="selectedIndex">
+            <md-tabs class="noTabPanel" flex md-dynamic-height md-selected="selectedIndex">
                 <md-tab label="Directions">
                     <md-tab-body>
                         <div data-ng-controller="GMapController">
-                    <!--Edit button: to redisplay the directions input form after hiding-->
+    <!--Edit button: to redisplay the directions input form after hiding-->
                         <md-button class="md-fab md-accent md-fab-top-right" ng-hide="toggleCollapsed.buttonCollapsed" ng-click="toggleCollapsed.buttonCollapsed=1">
-                            <md-icon md-svg-src="modules/core/img/svg/mode_edit.svg"></md-icon>
-                            <!--<span style="color:#f7f7f7;">Edit</span>-->
+                            <!--<md-icon md-svg-src="modules/core/img/svg/mode_edit.svg"></md-icon>-->
+                            <span style="color:#f7f7f7;">Edit</span>
                         </md-button>
                         <br>
 <!--User Input-->
                             <h2 class="md-display-1">Find your way around Singapore!</h2>
+    <!-- Radio btns for preferred transportation-->
                             <section class="inputMenu" ng-show="toggleCollapsed.buttonCollapsed">
                                 <b class="md-subhead">Preferred transport:</b>
                                 <md-radio-group layout="row" ng-model="data.vehicles">
@@ -70,6 +72,7 @@
                                     <md-radio-button value="train" class="md-primary">Train only.</md-radio-button>
                                 </md-radio-group>
                             </section>
+    <!--Location input form-->
                             <section class="inputMenu" ng-show="toggleCollapsed.buttonCollapsed">
                                 <label style="padding-right:2px">From: </label><input type="text" placeholder="Starting location"  ng-model="location"/>
                                 <tabbing class="hide-sm"></tabbing>
@@ -85,14 +88,12 @@
                             <!--&lt;!&ndash; <input type="submit" value="Search" ng-click = "showLocation(location);showLocation(endingpoint)"/>  &ndash;&gt;-->
                             <ng-click="openInfoWindow($event, marker)">
                             <section class="routes" layout="column" layout-phone="column" ng-repeat="rb in routeButtons" flex>
-                                <md-button class='md-raised md-hover routes' ng-hide={{rb.buttonCollapsedAttr}} ng-click={{rb.clickCollapsed}}>
-                                    <b>Route {{rb.routeID}}: </b><i>{{rb.routeDistance}}</i>, <i>{{rb.routeDuration}}</i><br>
+                                <md-button class='md-raised md-hover routes' ng-hide={{rb.buttonCollapsedAttr}} ng-click="{{rb.clickCollapsed}};redisplayRoute({{rb.routeID}})">
+                                    <b>Route {{rb.routeID+1}}: </b><i>{{rb.routeDistance}}</i>, <i>{{rb.routeDuration}}</i><br>
                                     <i>Click to see/hide route details</i><br/>
                                 </md-button>
-                                <div layout-align="center" class="panel" ng-hide={{rb.divCollapsedAttr}} id={{rb.divInstructionID}}>
-                                    <h1><b><u>Route {{rb.routeID}}</u></b></h1>
-                                </div>
                             </section>
+                            <div layout-align="center" class="panel" id="routeInstruction"></div>
                         </div>
                     </md-tab-body>
                 </md-tab>
@@ -220,7 +221,7 @@
                                     <br>
                                     <small class="list-group-item-text">Posted By: <span data-ng-bind="report.user.displayName"></span> on <span data-ng-bind="report.created | date:'medium'"></span></small>
                                     <br>
-                                    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(report)"></span>
+                                    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(report);"></span>
                                     {{report.upvotes}}
                                     <span class="glyphicon glyphicon-thumbs-down" data-ng-bind="report.downvotes" ng-click="incrementDownvotes(report)"></span>
 

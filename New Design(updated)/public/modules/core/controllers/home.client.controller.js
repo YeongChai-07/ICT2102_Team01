@@ -94,8 +94,6 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 ]).controller("GMapController", GMapController);
 
     function GMapController($scope,$mdDialog) {
-
-
         /*
          In order to display a map, we have to first declare a variable mapOptions.
          mapOptions will help us define many parameters related to the map
@@ -125,7 +123,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
         /*
          Google API: To add routing display and service for map
          */
-        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var rendererOptions = {
+            hideRouteList: true
+        };
+        var directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
         var directionsService = new google.maps.DirectionsService;
 
         /*
@@ -141,17 +142,14 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 
         $scope.routeToLocation = function(location,endingpoint) {
             directionsDisplay.setDirections({routes: []});
-            //if($scope.data.vehicles=='any'){
-            //
-            //}
             if($scope.data.vehicles=='bus'){
                 var request = {
                     origin: location,
                     destination: endingpoint,
                     region: 'SG',
-                    travelMode: google.maps.TravelMode.TRANSIT,
-					provideRouteAlternatives: true,
-                    transitOptions: {modes:[google.maps.TransitMode.BUS]}
+                    travelMode: google.maps.TravelMode.TRANSIT
+                    ,transitOptions: {modes:[google.maps.TransitMode.BUS]},
+                    provideRouteAlternatives: true
                 };
             }
             else if($scope.data.vehicles=='train'){
@@ -159,9 +157,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     origin: location,
                     destination: endingpoint,
                     region: 'SG',
-                    travelMode: google.maps.TravelMode.TRANSIT,
-					provideRouteAlternatives: true,
-                    transitOptions: {modes:[google.maps.TransitMode.TRAIN]}
+                    travelMode: google.maps.TravelMode.TRANSIT
+                    ,transitOptions: {modes:[google.maps.TransitMode.TRAIN]},
+                    provideRouteAlternatives: true
                 };
         }
             else{ //If no preference:
@@ -170,49 +168,51 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     destination: endingpoint,
                     region: 'SG',
                     travelMode: google.maps.TravelMode.TRANSIT,
-					provideRouteAlternatives: true
+                    provideRouteAlternatives: true
                 };
             }
             //console.log(request);
             directionsService.route(request, function(response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
+                    console.log(response);
                     directionsDisplay.setDirections(response);
                     directionsDisplay.setMap($scope.map);
-                    //directionsDisplay.setPanel(document.getElementById('routeInstruction'));
+                    directionsDisplay.setPanel(document.getElementById('routeInstruction'));
                     //$scope.toggleCollapsed.buttonCollapsed = 0;
                     var collapsedAttribute = [];
                     console.log(response.routes[0].legs[0].steps.length);
-                    //console.log(response.routes[0].legs[0].steps[0].transit.line.vehicle);
-					
-					//Save the current instance of response (DirectionsResult) to $scope
-					// for use in later of the code
-					$scope.directionsResult = response;
-					
-					var routeDataStruct = [];
-					
-					for(var count=0;count<response.routes.length;count++)
-					{
-						// Initialize buttonCollapsed to 0 (FALSE) and collapsed to 1 (TRUE)
-						collapsedAttribute.push({buttonCollapsed: 0,
-						                         collapsed: 1});
-						routeDataStruct.push({routeID: (count), 
-						                    routeDistance: ((response.routes[count].legs[0].distance.value)/1000).toFixed(0) + " km ",
-											routeDuration: ((response.routes[count].legs[0].duration.value)/60).toFixed(0) + " minutes ",
-											buttonCollapsedAttr: "toggleCollapsed.buttonCollapsed[" + count + "]",
-											clickCollapsed: "toggleCollapsed.collapsed[" + count + "]=!toggleCollapsed.collapsed[" + count + "]",
-											divCollapsedAttr: "toggleCollapsed.collapsed[" + count + "]",
-											divInstructionID: "routeInstruction" + count});
-						
-					}
-					
-					$scope.routeButtons = routeDataStruct;
-					$scope.toggleCollapsed = collapsedAttribute;
-
+                    var vehiclesInRoute = [];
                     for(var i=0;i<response.routes[0].legs[0].steps.length;i++){
                         if(response.routes[0].legs[0].steps[i].travel_mode!="WALKING"){
-                            console.log(response.routes[0].legs[0].steps[i].transit.line.vehicle.name);
+                            vehiclesInRoute.push(response.routes[0].legs[0].steps[i].transit.line.vehicle.name);
                         }
                     }
+                    console.log(vehiclesInRoute);
+                    //console.log(response.routes[0].legs[0].steps[0].transit.line.vehicle);
+
+                    //Save the current instance of response (DirectionsResult) to $scope
+                    // for use in later of the code
+                    $scope.directionsResult = response;
+
+                    var routeDataStruct = [];
+
+                    for(var count=0;count<response.routes.length;count++)
+                    {
+                        // Initialize buttonCollapsed to 0 (FALSE) and collapsed to 1 (TRUE)
+                        collapsedAttribute.push({buttonCollapsed: 0,
+                            collapsed: 1});
+                        routeDataStruct.push({routeID: (count),
+                            routeDistance: ((response.routes[count].legs[0].distance.value)/1000).toFixed(0) + " km ",
+                            routeDuration: ((response.routes[count].legs[0].duration.value)/60).toFixed(0) + " minutes ",
+                            buttonCollapsedAttr: "toggleCollapsed.buttonCollapsed[" + count + "]",
+                            clickCollapsed: "toggleCollapsed.collapsed[" + count + "]=!toggleCollapsed.collapsed[" + count + "]",
+                            divCollapsedAttr: "toggleCollapsed.collapsed[" + count + "]",
+                            divInstructionID: "routeInstruction" + count});
+
+                    }
+
+                    $scope.routeButtons = routeDataStruct;
+                    $scope.toggleCollapsed = collapsedAttribute;
 
                 }
                 else {
@@ -230,30 +230,13 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                 }
             });
         } // end of routeToLocation function
-		
-		$scope.showRoutesDetails = function(chosenRoute_Index)
-		{
-			var routeDetailsContent = "\r\n<md-content>";
-			var routeResults = $scope.directionsResult;
-			if(routeResults.routes.length > 0)
-			{
-				directionsDisplay.setDirections(routeResults);
-                directionsDisplay.setMap($scope.map);
-				
-				var totalSteps = routeResults.routes[chosenRoute_Index].legs[0].steps.length;
-				
-				for(var currStep=0;currStep<totalSteps;currStep++)
-				{
-					//Checks the travel_mode first
-					if(routeResults.routes[chosenRoute_Index].legs[0].steps[currStep].travel_mode!="WALKING")
-					{
-						
-					}
-				}
-                    
-			}
-			
-			routeDetailsContent+="\r\n</md-content>"
-		};// end of showRoutesDetails
+
+        $scope.redisplayRoute = function(index){
+            directionsDisplay.setRouteIndex(index);
+            directionsDisplay.setDirections(response);
+            directionsDisplay.setMap($scope.map);
+            directionsDisplay.setPanel(document.getElementById('routeInstruction'));
+        }
+
     }; // end of controller function
 }());
