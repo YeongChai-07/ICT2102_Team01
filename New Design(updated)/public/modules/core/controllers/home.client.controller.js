@@ -149,8 +149,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     origin: location,
                     destination: endingpoint,
                     region: 'SG',
-                    travelMode: google.maps.TravelMode.TRANSIT
-                    ,transitOptions: {modes:[google.maps.TransitMode.BUS]}
+                    travelMode: google.maps.TravelMode.TRANSIT,
+					provideRouteAlternatives: true,
+                    transitOptions: {modes:[google.maps.TransitMode.BUS]}
                 };
             }
             else if($scope.data.vehicles=='train'){
@@ -158,8 +159,9 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     origin: location,
                     destination: endingpoint,
                     region: 'SG',
-                    travelMode: google.maps.TravelMode.TRANSIT
-                    ,transitOptions: {modes:[google.maps.TransitMode.TRAIN]}
+                    travelMode: google.maps.TravelMode.TRANSIT,
+					provideRouteAlternatives: true,
+                    transitOptions: {modes:[google.maps.TransitMode.TRAIN]}
                 };
         }
             else{ //If no preference:
@@ -167,7 +169,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     origin: location,
                     destination: endingpoint,
                     region: 'SG',
-                    travelMode: google.maps.TravelMode.TRANSIT
+                    travelMode: google.maps.TravelMode.TRANSIT,
+					provideRouteAlternatives: true
                 };
             }
             //console.log(request);
@@ -175,12 +178,35 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                 if (status == google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(response);
                     directionsDisplay.setMap($scope.map);
-                    directionsDisplay.setPanel(document.getElementById('routeInstruction'));
-                    $scope.toggleCollapsed.buttonCollapsed = 0;
-                    document.getElementById('routeDistance').innerHTML = ((response.routes[0].legs[0].distance.value)/1000).toFixed(0) + " km";
-                    document.getElementById('routeDuration').innerHTML = ((response.routes[0].legs[0].duration.value)/60).toFixed(0) + " minutes";
+                    //directionsDisplay.setPanel(document.getElementById('routeInstruction'));
+                    //$scope.toggleCollapsed.buttonCollapsed = 0;
+                    var collapsedAttribute = [];
                     console.log(response.routes[0].legs[0].steps.length);
                     //console.log(response.routes[0].legs[0].steps[0].transit.line.vehicle);
+					
+					//Save the current instance of response (DirectionsResult) to $scope
+					// for use in later of the code
+					$scope.directionsResult = response;
+					
+					var routeDataStruct = [];
+					
+					for(var count=0;count<response.routes.length;count++)
+					{
+						// Initialize buttonCollapsed to 0 (FALSE) and collapsed to 1 (TRUE)
+						collapsedAttribute.push({buttonCollapsed: 0,
+						                         collapsed: 1});
+						routeDataStruct.push({routeID: (count), 
+						                    routeDistance: ((response.routes[count].legs[0].distance.value)/1000).toFixed(0) + " km ",
+											routeDuration: ((response.routes[count].legs[0].duration.value)/60).toFixed(0) + " minutes ",
+											buttonCollapsedAttr: "toggleCollapsed.buttonCollapsed[" + count + "]",
+											clickCollapsed: "toggleCollapsed.collapsed[" + count + "]=!toggleCollapsed.collapsed[" + count + "]",
+											divCollapsedAttr: "toggleCollapsed.collapsed[" + count + "]",
+											divInstructionID: "routeInstruction" + count});
+						
+					}
+					
+					$scope.routeButtons = routeDataStruct;
+					$scope.toggleCollapsed = collapsedAttribute;
 
                     for(var i=0;i<response.routes[0].legs[0].steps.length;i++){
                         if(response.routes[0].legs[0].steps[i].travel_mode!="WALKING"){
@@ -203,6 +229,31 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     //alert("We were unable to find any directions.\nPlease try again with more specific location inputs, postal codes or removing certain filters.\nERR_MSG:"+ status);
                 }
             });
-        }
+        } // end of routeToLocation function
+		
+		$scope.showRoutesDetails = function(chosenRoute_Index)
+		{
+			var routeDetailsContent = "\r\n<md-content>";
+			var routeResults = $scope.directionsResult;
+			if(routeResults.routes.length > 0)
+			{
+				directionsDisplay.setDirections(routeResults);
+                directionsDisplay.setMap($scope.map);
+				
+				var totalSteps = routeResults.routes[chosenRoute_Index].legs[0].steps.length;
+				
+				for(var currStep=0;currStep<totalSteps;currStep++)
+				{
+					//Checks the travel_mode first
+					if(routeResults.routes[chosenRoute_Index].legs[0].steps[currStep].travel_mode!="WALKING")
+					{
+						
+					}
+				}
+                    
+			}
+			
+			routeDetailsContent+="\r\n</md-content>"
+		};// end of showRoutesDetails
     }; // end of controller function
 }());
