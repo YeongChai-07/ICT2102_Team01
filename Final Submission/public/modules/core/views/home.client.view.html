@@ -208,6 +208,9 @@
                 <md-tab>
                     <md-tab-body>
                         <section data-ng-controller="ReportsController" data-ng-init="find()">
+                            <md-button class="md-fab md-primary md-fab-top-right" ng-hide="toggleCollapsed.buttonCollapsed" ng-click="refreshModule()">
+                                <md-icon md-svg-src="modules/core/img/svg/refresh.svg"></md-icon>
+                            </md-button>
                             <div class="page-header">
                                 <h2 class="md-display-1">View all current congestion reports!</h2>
                             </div>
