@@ -11,7 +11,7 @@ module.exports = function(app) {
 
 	app.route('/reports/:reportId')
 		.get(reports.read)
-		.put(users.requiresLogin, reports.hasAuthorization, reports.update)
+		.put(users.requiresLogin, reports.update)
 		.delete(users.requiresLogin, reports.hasAuthorization, reports.delete);
 
 	// Finish by binding the Report middleware
