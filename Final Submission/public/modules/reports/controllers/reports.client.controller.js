@@ -96,38 +96,44 @@ angular.module('reports').controller('ReportsController', ['$scope', '$mdDialog'
 			});
 		};
 
-		$scope.incrementUpvotes = function(report) {
-			report.upvotes += 1;
-			report.$update(function() {
+		// Increase vote
+		$scope.clickUpvotes = function(report){
+			if (user.displayName != report.user.displayName){
+				report.upvotes += 1;
+				report.$update(function(){
+				});
+			}
+			else{
 				$mdDialog.show(
 					$mdDialog.alert()
 						.parent(angular.element(document.querySelector('#mainPage')))
 						.clickOutsideToClose(true)
-						.title('Thank you for contributing!')
-						.content('Your vote has been saved!')
-						.ok('Alright!')
+						.title('Error')
+						.content('Sorry! You cannot vote your own post!')
+						.ok('Okay')
 						.targetEvent()
 				);
-			}, function(errorResponse) {
-				alert("Voting failed");
-			});
+			}
 		};
 
-		$scope.incrementDownvotes = function(report) {
-			report.downvotes -= 1;
-			report.$update(function() {
+		// Decrease vote
+		$scope.clickDownvotes = function(report){
+			if (user.displayName != report.user.displayName){
+				report.downvotes -= 1;
+				report.$update(function(){
+				});
+			}
+			else{
 				$mdDialog.show(
 					$mdDialog.alert()
 						.parent(angular.element(document.querySelector('#mainPage')))
 						.clickOutsideToClose(true)
-						.title('Thank you for contributing!')
-						.content('Your vote has been saved!')
-						.ok('Alright!')
+						.title('Error')
+						.content('Sorry! You cannot vote your own post')
+						.ok('Okay')
 						.targetEvent()
 				);
-			}, function(errorResponse) {
-				alert("Voting failed");
-			});
+			}
 		};
 
 	}

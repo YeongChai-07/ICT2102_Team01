@@ -208,9 +208,6 @@
                 <md-tab>
                     <md-tab-body>
                         <section data-ng-controller="ReportsController" data-ng-init="find()">
-                            <md-button class="md-fab md-primary md-fab-top-right" ng-hide="toggleCollapsed.buttonCollapsed" ng-click="refreshModule()">
-                                <md-icon md-svg-src="modules/core/img/svg/refresh.svg"></md-icon>
-                            </md-button>
                             <div class="page-header">
                                 <h2 class="md-display-1">View all current congestion reports!</h2>
                             </div>
@@ -226,10 +223,13 @@
                                     <br>
                                     <small class="list-group-item-text">Posted By: <span data-ng-bind="report.user.displayName"></span> on <span data-ng-bind="report.created | date:'medium'"></span></small>
                                     <br>
-                                    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(report);"></span>
-                                    {{report.upvotes}}
-                                    <span class="glyphicon glyphicon-thumbs-down" data-ng-bind="report.downvotes" ng-click="incrementDownvotes(report)"></span>
-
+                                    <button type="button" class="btn btn-default btn-sm" ng-click="clickUpvotes(report)" >
+                                        {{report.upvotes}}<span class="glyphicon glyphicon-thumbs-up" ></span>
+                                    </button>
+                                    {{report.upvotes + report.downvotes}}
+                                    <button type="button" class="btn btn-default btn-sm" ng-click="clickDownvotes(report)">
+                                        <span class="glyphicon glyphicon-thumbs-down" ></span>{{report.downvotes}}
+                                    </button>
                                 </a>
                             </div>
                             <div class="alert alert-warning text-center" data-ng-hide="!reports.$resolved || reports.length">
