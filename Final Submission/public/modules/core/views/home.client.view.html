@@ -56,7 +56,7 @@
                     <md-tab-body>
                         <div data-ng-controller="GMapController">
     <!--Edit button: to redisplay the directions input form after hiding-->
-                        <md-button class="md-fab md-accent md-fab-top-right" ng-hide="toggleCollapsed.buttonCollapsed" ng-click="toggleCollapsed.buttonCollapsed=1">
+                        <md-button class="md-fab md-accent md-fab-top-right" ng-hide="toggleEditHide.editCollapsed" ng-click="toggleEditHide.editCollapsed=1">
                             <!--<md-icon md-svg-src="modules/core/img/svg/mode_edit.svg"></md-icon>-->
                             <span style="color:#f7f7f7;">Edit</span>
                         </md-button>
@@ -64,7 +64,7 @@
 <!--User Input-->
                             <h2 class="md-display-1">Find your way around Singapore!</h2>
     <!-- Radio btns for preferred transportation-->
-                            <section class="inputMenu" ng-show="toggleCollapsed.buttonCollapsed">
+                            <section class="inputMenu" ng-show="toggleEditHide.editCollapsed">
                                 <b class="md-subhead">Preferred transport:</b>
                                 <md-radio-group layout="row" ng-model="data.vehicles">
                                     <md-radio-button value="any" class="md-primary">Any</md-radio-button>
@@ -73,7 +73,7 @@
                                 </md-radio-group>
                             </section>
     <!--Location input form-->
-                            <section class="inputMenu" ng-show="toggleCollapsed.buttonCollapsed">
+                            <section class="inputMenu" ng-show="toggleEditHide.editCollapsed">
                                 <label style="padding-right:2px">From: </label><input type="text" placeholder="Starting location"  ng-model="location"/>
                                 <tabbing class="hide-sm"></tabbing>
                                 <label class="hide-sm">To: </label> <input class="hide-sm" label="To" type="text" placeholder="Destination" ng-model="endingpoint" />
@@ -90,11 +90,12 @@
                             <section class="routes" layout="column" layout-phone="column" ng-repeat="rb in routeButtons" flex>
                                     <md-button class='md-raised md-hover routes' ng-hide={{rb.buttonCollapsedAttr}} ng-click={{rb.clickCollapsed}}>
                                         <b>Route {{rb.routeID+1}}: </b><i>{{rb.routeDistance}}</i>, <i>{{rb.routeDuration}}</i><br>
+                                        <i>{{rb.transportType;}}</i><br>
                                         <i>Click to see/hide route details</i><br/>
                                     </md-button>
 								    <div layout-align="center" class="panel" ng-hide={{rb.divCollapsedAttr}} id={{rb.divInstructionID}}></div>
                             </section>
-                            <div flex layout-align="center" class="panel" id="routeInstruction"></div>
+                            <!--<div flex layout-align="center" class="panel" id="routeInstruction"></div>-->
                         </div>
                     </md-tab-body>
                 </md-tab>
