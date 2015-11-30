@@ -74,7 +74,7 @@
                             </section>
     <!--Location input form-->
                             <section class="inputMenu" ng-show="toggleEditHide.editCollapsed">
-                                <label style="padding-right:2px">From: </label><input type="text" placeholder="Starting location"  ng-model="location"/>
+                                <label style="padding-right:2px">From: </label><input type="text" placeholder="Starting location"  ng-model="location" ng-focus="logTime()"/>
                                 <tabbing class="hide-sm"></tabbing>
                                 <label class="hide-sm">To: </label> <input class="hide-sm" label="To" type="text" placeholder="Destination" ng-model="endingpoint" />
                                 <div class="hide-gt-sm"> <label style="padding-right:19px">To:</label><input label="To" type="text" placeholder="Destination" ng-model="endingpoint" /></div>
@@ -88,7 +88,7 @@
                             <map center="1.352083, 103.819836" zoom="10"></map>
                             <ng-click="openInfoWindow($event, marker)">
                             <section class="routes" layout="column" layout-phone="column" ng-repeat="rb in routeButtons" flex>
-                                    <md-button class='md-raised md-hover routes' ng-hide={{rb.buttonCollapsedAttr}} ng-click={{rb.clickCollapsed}}>
+                                    <md-button class='md-raised md-hover routes' ng-hide={{rb.buttonCollapsedAttr}} ng-click="{{rb.clickCollapsed}};logTime()">
                                         <b>Route {{rb.routeID+1}}: </b><i>{{rb.routeDistance}}</i>, <i>{{rb.routeDuration}}</i><br>
                                         <i>{{rb.transportType;}}</i><br>
                                         <i>Click to see/hide route details</i><br/>

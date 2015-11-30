@@ -185,7 +185,7 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
             //console.log(request);
             directionsService.route(request, function(response, status) {
                 if (status == google.maps.DirectionsStatus.OK) {
-                    console.log(response);
+                    //console.log(response);
                     var collapsedAttribute = [];
 //Check all types of transportation vehicle needed for each route
                     for(var j=0;j<4;j++) {
@@ -206,10 +206,10 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                             }
                         }
                     }
-                    console.log(vehiclesInRoute1);
-                    console.log(vehiclesInRoute2);
-                    console.log(vehiclesInRoute3);
-                    console.log(vehiclesInRoute4);
+                    //console.log(vehiclesInRoute1);
+                    //console.log(vehiclesInRoute2);
+                    //console.log(vehiclesInRoute3);
+                    //console.log(vehiclesInRoute4);
 //Determining transport type for each routes
                     if(vehiclesInRoute1.indexOf("Subway")==-1 && vehiclesInRoute1.indexOf("Bus")==-1){
                         transportType1 = 'Walk there!';
@@ -312,8 +312,8 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
                     }
                     $scope.toggleEditHide.editCollapsed = 0;
                     $scope.routeButtons = routeDataStruct;
-                    console.log($scope.routeButtons);
-                    console.log(routeDataStruct);
+                    //console.log($scope.routeButtons);
+                    //console.log(routeDataStruct);
                     $scope.toggleCollapsed = collapsedAttribute;
                 }
                 else {
@@ -340,6 +340,14 @@ angular.module('core').controller('HomeController', ['$scope', 'Authentication',
 			directionsDisplay.setRouteIndex(index);
             directionsDisplay.setMap($scope.map);
             directionsDisplay.setPanel(document.getElementById('routeInstruction' + index));
+        }
+
+        $scope.logTime = function() {
+            var d = new Date(),
+				h = (d.getHours()<10) + d.getHours(),
+				m = (d.getMinutes()<10) + d.getMinutes(),
+				s = (d.getSeconds()<10) + d.getSeconds();
+            console.log(h + ':' + m + ':' + s);
         }
     } // end of controller function
 ]);
